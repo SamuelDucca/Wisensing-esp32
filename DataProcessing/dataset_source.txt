@@ -1,0 +1,7 @@
+FILE, TYPE
+sliced-person_145cm_1, person
+sliced-person_145cm_1, noise
+sliced-person_150cm_1, person
+sliced-person_150cm_1, noise
+sliced-person_200cm_1, person
+sliced-person_200cm_1, noise

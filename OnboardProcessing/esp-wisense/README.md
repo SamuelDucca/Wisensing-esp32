@@ -53,18 +53,18 @@ This component defines compile-time variables that alter its behaviour. To acces
 
 ![menuconfig screen](../../images/menuconfig.png)
 
-- Debug: Enable profiling prints;
-- Wi-Fi SSID: Wi-Fi network identifier;
-- Wi-Fi Password: Wi-Fi network PSK password;
-- CSI Sampling Rate: CSI requests per second;
-- CSI Rolling Mean Size: Rolling mean window slide;
-- Wi-Fi Operating Mode: STA or AP.
+- Debug: Enable profiling prints
+- Wi-Fi SSID: Wi-Fi network identifier
+- Wi-Fi Password: Wi-Fi network PSK password
+- CSI Sampling Rate: CSI requests per second
+- CSI Rolling Mean Size: Rolling mean window slide
+- Wi-Fi Operating Mode: STA or AP
   - Maximum Connections Retry (only STA)
   - Wi-Fi Channel (only AP)
 
 ## Profiling
 
-The macros `PROFILE_START(id)` and `PROFILE_END(id)` enable to test the execution time of code chunks if the [Debug](#config-options) option is set.
+The macros `PROFILE_START(id)` and `PROFILE_END(id)` enable to test the execution time of code chunks if the [Debug](#config-options) option is set. For example, this sample code would produce an output like the following.
 ```
 PROFILE_START(dotprod);
   int32_t acc = 0;
@@ -82,5 +82,5 @@ The cycles refer to CPU clock cycles elapsed and time is measured in microsecond
 
 Matching `PROFILE_START` and `PROFILE_END` must be at the same function scope, with `PROFILE_START` at an equal or higher scope to `PROFILE_END` to avoid undefined references.
 
-The main CSI processing steps already have this macro.
+The main CSI processing steps of the component already have this wrapper.
 

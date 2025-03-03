@@ -58,16 +58,34 @@ This script will format the raw CSI data, calculate its amplitude normalized by 
 
 The script will create two new folders with the transformed data: ```2_formatted_data``` (for the raw formatted data) and ```3_preprocessed_data``` (for the extracted and filtered amplitudes). We save the preprocessed files using the ```.parquet``` format to reduce memory usage and speed up read/wr
 
-### 3. Data annotation and visualization
+### 3. Data visualization
 
 Now, we can visualize the CSI amplitudes (located in the ```3_preprocessed_data``` folder) using a heatmap plot, by running the ```single_plot.py``` script with the desired file as the argument:
 ```
 python single_plot.py preprocessed-person_150cm_1.parquet
 ```
 
+A matplotlib window showing the amplitude heatmap will appear. You can zoom in and adjust the scale as needed to better visualize the data.
 
-### 4. Data slicing
-### 5. Assembling the dataset
+<img width="500" alt="matplotlib_csi" src="https://github.com/user-attachments/assets/8139feea-4767-47d8-968c-7539603fa4b6" />
+
+The narrow blue strips denote the CSI amplitude drop when a person walks in between the ESP32 boards.
+
+
+### 4. Data annotation
+
+In order to use this data to train a machine learning model, we first need to annotate it, indicating what class corresponds to the events in a certain window of frames. To do this, we use the ```data_annotation.py``` script, with the source file name and the class we want to annotate as arguments:
+
+```
+python data_annotation.py preprocessed-person_150cm_1.parquet person
+```
+
+Once the matplotlib window is open, we can annotate the data by right clicking. In case a wrong
+
+
+
+### 5. Data slicing
+### 6. Assembling the dataset
 
 
 ## Second Module: Model training and quantization

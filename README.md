@@ -107,11 +107,33 @@ python 2_slicing.py slicing_source_demo.txt
 This will create a new ``4_sliced_data`` folder containing our separated train and test samples (80/20 split), ready for assembling our dataset in the next step.
 
 
-
 ### 6. Assembling the dataset
+
+We have all of our data ready, now we just need to assemple our dataset! We will use the ``3_dataset_builder.py`` script, with arguments including our dataset source file and the dataset name we wish to create.
+
+The ``dataset_source.txt`` file is provided as an example. You can edit it to remove or add data from any experiment or class.
+
+Run:
+
+```
+python 3_dataset_builder.py  dataset_source.txt my_dataset
+```
+
+A new ``5_datasets`` folder will be created, containing both train and test datasets in ``.parquet`` format. We can now use this dataset to train our deep learning models!
 
 
 ## Second Module: Model training and quantization
+
+The second module is provided in the ``ModelTraining`` folder. It consists of a Jupyer Notebook contanining all necessary code and documentation for:
+
+1. Data importing and feature engineering;
+2. Model training using Tensorflow;
+3. Model quantization using LiteRT;
+4. Model convertion to C data array.
+
+It enables you to run the code step-by-step, alongside instructions and explanations.
+
+This module will generate four files as output: ``preprocessing.c``, ``preprocessing.h``, ``model.c``, ``preprocessing.h``. Copy the files to the ``OnboardProcessing/esp-wisense/examples/person-detection/main`` to use your model and feature extraction process in the next module using the ESP32.
 
 
 ## Third Module: Onboard processing using the ESP32

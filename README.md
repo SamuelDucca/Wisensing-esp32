@@ -51,7 +51,7 @@ We provide three raw CSI files representing a person walking between two ESP32 b
 Let's start by running:
 
 ```
-python 1_format_and_preprocessing.py
+python 1_format_and_preprocess.py 
 ```
 
 This script will format the raw CSI data, calculate its amplitude normalized by the RSSI and apply a running mean filter to reduce noise. The running mean window size can be configured in the ```config.py``` file.
@@ -74,21 +74,45 @@ The narrow blue strips denote the CSI amplitude drop when a person walks in betw
 
 ### 4. Data annotation
 
-In order to use this data to train a machine learning model, we first need to annotate it, indicating what class corresponds to the events in a certain window of frames. To do this, we use the ```data_annotation.py``` script, with the source file name and the class we want to annotate as arguments:
+In order to use this data to train a machine learning model, we first need to annotate it, indicating what class corresponds to the events in a certain window of frames. To do this, we use the ```data_annotation.py``` script, with the source file name and the class we want to annotate as arguments: ``python data_annotation.py source_file.parquet class_name``
+
+For example, let's annotate the experiment with the boards placed 150 cm apart:
 
 ```
 python data_annotation.py preprocessed-person_150cm_1.parquet person
 ```
 
-Once the matplotlib window is open, we can annotate the data by right clicking. In case a wrong
+Once the matplotlib window is open, let' zoom in between frames 0 and 2000 to better visualize the data. Now, we can annotate the data by *right clicking* the narrow amplitude drops where a person interfered with the signal. 
 
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/b626e3c3-e536-400b-a1e8-baa6fdab77e3" />
+
+
+A blue dot with a blue horizontal bar will appear, showing you the size of the window you are annotating for that sample. Avoid any juxtaposition between samples, as that could lead to data contamination and reduced performance due to duplicated samples in the dataset.
+
+In case you make a mistake, use ``CTRL+Z`` to undo the last annotation.
+
+When you are done, simply close the window. Your annotated frames will be automatically saved in the ``slicing_source.txt`` file, in a format suitable for input to our next scripts. We provide a ``slicing_source_demo.txt`` file with all samples from the three experiments already annotated, so you don't have to manually annotate everything to proceed.
 
 
 ### 5. Data slicing
+
+Now, we will now run a script to slice our annotated windows to create separate samples from each one of them applying a sliding window procedure. You can customize the window size and amount of sliding in the ``config.py`` file, but we recommend maintaining the default values for this demonstration.
+
+Let's use the provided ``slicing_source_demo.txt`` file for slicing the data:
+
+```
+python 2_slicing.py slicing_source_demo.txt
+```
+
+This will create a new ``4_sliced_data`` folder containing our separated train and test samples (80/20 split), ready for assembling our dataset in the next step.
+
+
+
 ### 6. Assembling the dataset
 
 
 ## Second Module: Model training and quantization
+
 
 ## Third Module: Onboard processing using the ESP32
 

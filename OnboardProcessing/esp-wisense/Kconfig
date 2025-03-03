@@ -1,0 +1,63 @@
+menu "WiSense"
+
+config DEBUG_PRINT
+  bool "Debug"
+  default n
+  help
+    Enable debugging for this component.
+
+config WIFI_SSID
+  string "Wi-Fi SSID"
+  default "example_ssid"
+  help
+    Network identifier to establish Wi-Fi connection.
+
+config WIFI_PASSWORD
+  string "Wi-Fi Password"
+  default "example_password"
+  help
+    Network password (WPA- or WPA2-Personal) to establish Wi-Fi connection.
+
+config SAMPLE_RATE
+  int "CSI Sampling Rate"
+  default 100
+  range 1 200
+  help
+    Sampling frequency (Hz) of Channel State Information.
+
+config ROLLING_MEAN_WINDOW
+  int "CSI Rolling Mean Size"
+  default 10
+  range 1 52
+  help
+    Size of rolling mean window.
+
+choice WIFI_MODE
+  prompt "Wi-Fi Operating Mode"
+  default WIFI_STA
+  help
+    Wi-Fi Operating Mode Configuration
+
+  config WIFI_STA
+    bool "Station"
+
+  config WIFI_AP
+    bool "Access Point"
+endchoice
+
+config WIFI_CHANNEL
+  int "Wi-Fi Channel"
+  depends on WIFI_AP
+  default 6
+  help
+    Valid channels are [1, 13] for most of the world.
+
+config WIFI_MAX_RETRY
+  int "Wi-Fi Maximum Connection Retries"
+  depends on WIFI_STA
+  default 5
+  range 0 10
+  help
+    Limit number of retries on Wi-Fi connection
+
+endmenu

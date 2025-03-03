@@ -49,7 +49,8 @@ dependencies:
 
 ## Config options
 
-This component defines compile-time variables that alter its behaviour:
+This component defines compile-time variables that alter its behaviour. To access them, run ```idf.py menuconfig``` and navigate to `Component config > WiSens` at the end of the list.
+
 ![menuconfig screen](../../images/menuconfig.png)
 
 - Debug: Enable profiling prints;
@@ -60,8 +61,6 @@ This component defines compile-time variables that alter its behaviour:
 - Wi-Fi Operating Mode: STA or AP.
   - Maximum Connections Retry (only STA)
   - Wi-Fi Channel (only AP)
-
-To access them, run ```idf.py menuconfig``` and navigate to `Component config > WiSens` at the end of the list.
 
 ## Profiling
 
@@ -78,6 +77,8 @@ Example output:
 ```
 dotprod: cycles - 2720, time - 34us
 ```
+
+The cycles refer to CPU clock cycles elapsed and time is measured in microseconds. The time is based on the cycle count and, therefore, is not reliable if the application enables CPU Dynamic Frequency Scaling (DFS), as the frequency is assumed constant and equal to that configured in the `menuconfig`.
 
 Matching `PROFILE_START` and `PROFILE_END` must be at the same function scope, with `PROFILE_START` at an equal or higher scope to `PROFILE_END` to avoid undefined references.
 

@@ -1,4 +1,4 @@
-name: sbrc
+name: wisensing-esp32
 channels:
   - conda-forge
   - defaults

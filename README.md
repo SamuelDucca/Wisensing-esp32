@@ -156,7 +156,7 @@ Before compiling a project, define the compile target:
 ```
 idf.py set-target <chip_name>
 ```
-Where ```<chip_name>``` indicates the board's ESP32 SoC (e.g. esp32, esp32s3, esp32c3). Additionally, in order to establish Wi-Fi connections, the SSID and password must be provided. Open the configuration menu (```idf.py menuconfig```) and navigate to ```Component config > WiSense``` to view the available options.
+Where ```<chip_name>``` indicates the board's ESP32 SoC (e.g. esp32, esp32s3, esp32c3). Additionally, in order to establish Wi-Fi connections, the SSID and password must be provided. Open the configuration menu (```idf.py menuconfig```) and navigate to ```Component config > WiSense``` to view the [available options](./OnboardProcessing/esp-wisense/README.md#config-options).
 
 ### Building
 
@@ -175,5 +175,5 @@ The argument ```-p <PORT>``` is optional and denotes the serial port of the conn
 (To exit the serial monitor, type ```Ctrl-]```)
 
 
-Refer to ```OnboardProcessing/esp-wisense/README.md``` for further information.
+Refer to [esp-wisense](./OnboardProcessing/esp-wisense/README.md) for further information.
 

@@ -12,7 +12,8 @@
 #include "freertos/ringbuf.h"
 #include "preprocessing.h"
 
-#define QUEUE_SIZE 5
+#define QUEUE_SIZE  5
+#define BUFFER_SIZE 10
 
 static const char *TAG = "WISENSE-PING";
 
@@ -27,31 +28,25 @@ static void inference_task(void *);
 
 inline void register_callback(inference_cb cb) { s_task_cb = cb; }
 
-void esp_wisense_create_tasks() {
-  g_csi_buffer    = xRingbufferCreateNoSplit(sizeof(csi_frame), 10);
-  g_feature_queue = xQueueCreate(QUEUE_SIZE, PCA_COMPONENTS * sizeof(float));
+void esp_wisense_create_tasks(void) {
+  esp_ping_config_t ping_config = ESP_PING_DEFAULT_CONFIG();
+  ping_config.count             = 0;
+  ping_config.interval_ms       = 1000 / CONFIG_SAMPLE_RATE;
+  ping_config.task_stack_size   = 3072;
+  ping_config.data_size         = 1;
 
-  /*  esp_ping_config_t ping_config = ESP_PING_DEFAULT_CONFIG();
-    ping_config.count             = 0;
-    ping_config.interval_ms       = 1000 / CONFIG_SAMPLE_RATE;
-    ping_config.task_stack_size   = 3072;
-    ping_config.data_size         = 1;
+  esp_netif_ip_info_t local_ip;
+  esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"),
+                        &local_ip);
+  ESP_LOGI(TAG, "got ip:" IPSTR ", gw: " IPSTR, IP2STR(&local_ip.ip),
+           IP2STR(&local_ip.gw));
+  ping_config.target_addr.u_addr.ip4.addr = ip4_addr_get_u32(&local_ip.gw);
+  ping_config.target_addr.type            = ESP_IPADDR_TYPE_V4;
 
-    esp_netif_ip_info_t local_ip;
-    esp_netif_get_ip_info(esp_netif_get_handle_from_ifkey("WIFI_STA_DEF"),
-                          &local_ip);
-    ESP_LOGI(TAG, "got ip:" IPSTR ", gw: " IPSTR, IP2STR(&local_ip.ip),
-             IP2STR(&local_ip.gw));
-    ping_config.target_addr.u_addr.ip4.addr = ip4_addr_get_u32(&local_ip.gw);
-    ping_config.target_addr.type            = ESP_IPADDR_TYPE_V4;
+  esp_ping_callbacks_t cbs = {0};
+  esp_ping_new_session(&ping_config, &cbs, &s_ping_handle);
 
-    esp_ping_callbacks_t cbs = {0};
-    esp_ping_new_session(&ping_config, &cbs, &s_ping_handle);*/
-
-  xTaskCreatePinnedToCore(processing_task, "CSI Processing", 4096, NULL, 10,
-                          NULL, PRO_CPU_NUM);
-  xTaskCreatePinnedToCore(inference_task, "Model Inference", 4096, s_task_cb,
-                          10, NULL, APP_CPU_NUM);
+  esp_wisense_create_tasks_internal();
 }
 
 void esp_wisense_enable(bool en) {
@@ -71,10 +66,19 @@ void esp_wisense_enable(bool en) {
   ESP_ERROR_CHECK(esp_wifi_set_csi(en));
 }
 
+void esp_wisense_create_tasks_internal() {
+  g_csi_buffer    = xRingbufferCreateNoSplit(sizeof(csi_frame), BUFFER_SIZE);
+  g_feature_queue = xQueueCreate(QUEUE_SIZE, PCA_COMPONENTS * sizeof(float));
+
+  xTaskCreatePinnedToCore(processing_task, "CSI Processing", 4096, NULL, 10,
+                          NULL, PRO_CPU_NUM);
+  xTaskCreatePinnedToCore(inference_task, "Model Inference", 4096, s_task_cb,
+                          10, NULL, APP_CPU_NUM);
+}
+
 static void processing_task(void *params) {
   float csi_db[SUBCARRIER_COUNT];
 
-  ets_printf("step,cycles,time");
   while (true) {
     float pca_components[PCA_COMPONENTS] = {0};
 
@@ -197,8 +201,8 @@ static void inference_task(void *cb) {
 
     PROFILE_START(inference);
     if (cb && run_inference(features, &score) == kTfLiteOk) {
+      PROFILE_END(inference);
       ((inference_cb)cb)(&score);
     }
-    PROFILE_END(inference);
   }
 }

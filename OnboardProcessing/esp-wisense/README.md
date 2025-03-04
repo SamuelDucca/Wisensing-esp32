@@ -1,7 +1,5 @@
 # esp-wisense Component
 
-- [User Guide](../../README.md#third-module:-onboard-processing-using-the-esp32)
-
 This project provides a examples on how to apply data processing into Wi-Fi CSI in real time.
 
 The component structure is as follows:
@@ -20,6 +18,7 @@ esp-wisense/
 │   ├── esp_wisense.c            // Implementation for data processing
 │   ├── esp_wisense_connection.c // Implementation for Wi-Fi connection
 │   └── inference.cc             // TFLite model setup and inference
+├── tests/                       // Test application with predefined data
 ├── CMakeLists.txt               // Project-level configuration
 ├── Kconfig                      // Component configuration file
 └── README.md                    // This documentation
@@ -44,8 +43,20 @@ dependencies:
 
 ## Examples
 
+- [User Guide](../../README.md#third-module:-onboard-processing-using-the-esp32)
+
 - [Person Detection](./examples/person-detection/): Detection of person crossing over the STA-AP line-of-sight.
 - [SoftAP](./examples/person-detection/): Access Point mode for ESP32.
+
+## Test
+
+Besides full-fledged applications, a test application is provided to verify the functionality of the data processing pipeline with predefined data. The CSI data is read from a constant C array and injected into the Wi-Fi callback as if the module was active. This application has the same model and processing steps as the `person-detection` example.
+
+The same build and flash procedure of the examples applies here. The project is located in the `test` directory, from where the build commands must be issued.
+
+The data contained in the test application results in a single inference with a person detected.
+
+Obs: the simulated CSI sampling rate of the test application is half of that in `person-detection`. This is due to the time penalty of logging data at each step, which could cause some data to be discarded and the inference not to happen.
 
 ## Config options
 

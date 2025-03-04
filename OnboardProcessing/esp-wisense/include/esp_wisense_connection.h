@@ -18,7 +18,9 @@ extern "C" {
 #endif
 
 /**
- * @brief Initialize Wi-Fi with base configuration.
+ * @brief Initialize Wi-Fi module.
+ *        Select the operation mode based on CONFIG_WIFI_MODE. Available
+ *        configurations are CONFIG_WIFI_STA and CONFIG_WIFI_AP.
  */
 void wifi_init(void);
 

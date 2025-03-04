@@ -7,13 +7,15 @@
 #if CONFIG_DEBUG_PRINT
 #include "rom/ets_sys.h"
 #include "xtensa/hal.h"
+
 #define PROFILE_START(id) uint32_t __profile_start_##id = xthal_get_ccount()
 #define PROFILE_END(id)                                                        \
   do {                                                                         \
     uint32_t __profile_end_##id = xthal_get_ccount();                          \
     uint32_t __elapsed_cycles   = __profile_end_##id - __profile_start_##id;   \
                                                                                \
-    ets_printf(#id ",%" PRIu32 ",%" PRIu32 "\n", __elapsed_cycles,             \
+    ets_printf(#id ": cycles - %" PRIu32 ", time - %" PRIu32 "us\n",           \
+               __elapsed_cycles,                                               \
                (__elapsed_cycles / CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ));          \
   } while (0)
 #else

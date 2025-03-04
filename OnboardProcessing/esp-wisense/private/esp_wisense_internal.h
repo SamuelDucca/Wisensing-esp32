@@ -22,6 +22,7 @@ extern "C" {
 #endif
 
 void wifi_csi_rx_cb(void *ctx, wifi_csi_info_t *info);
+void esp_wisense_create_tasks_internal(void);
 
 /**
  * @brief      Runs inference on the provided input features.

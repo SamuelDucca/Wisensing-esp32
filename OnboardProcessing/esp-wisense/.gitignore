@@ -2,8 +2,8 @@ build/
 .cache/
 managed_components/
 
-sdkconfig
-sdkconfig.old
+sdkconfig*
+!sdkconfig.defaults
 dependencies.lock
 
 *.elf

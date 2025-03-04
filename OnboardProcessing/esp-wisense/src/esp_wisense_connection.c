@@ -4,8 +4,6 @@
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
-#include "esp_wifi_default.h"
-#include "esp_wifi_types_generic.h"
 #include "freertos/ringbuf.h"
 
 #include "esp_wisense_connection.h"
@@ -19,6 +17,8 @@ EventGroupHandle_t g_wifi_event_group;
 
 static void event_handler(void *, esp_event_base_t, int32_t, void *);
 #endif
+
+void wifi_csi_rx_cb(void *, wifi_csi_info_t *);
 
 void wifi_init(void) {
   ESP_ERROR_CHECK(esp_event_loop_create_default());

@@ -15,7 +15,7 @@ As a demonstration of Wisensing-ESP32 capabilities, in this README we provide a 
 
 This project uses Python 3.11. All required packages and libraries for the Data Processing and Model Training modules are listed under ```requirements.txt```. In case you use [conda](https://docs.conda.io/projects/conda/en/stable/index.html), we also provide an environment file for easy setup.
 
-The Onboard Processing module requires the ESP-IDF framework for programming the ESP32 boards, as well as the esp-tflite-micro library. We discuss in more detail how to install these requirements at the relevant section.
+The Onboard Processing module requires the ESP-IDF framework v5.4 for programming the ESP32 boards, as well as the esp-tflite-micro library. We discuss in more detail how to install these requirements at the relevant section.
 
 We have tested our tool in the following operating systems: 
 - Windows 11

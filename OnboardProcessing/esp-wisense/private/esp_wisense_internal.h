@@ -21,7 +21,19 @@ extern RingbufHandle_t g_csi_buffer;
 extern "C" {
 #endif
 
+/**
+ * @brief      Callback with Wi-Fi PHY data
+ *
+ * @attention  1. This API serves only to facilitate testing.
+ *
+ * @param[in] ctx   Pointer to context variable.
+ * @param[in] info  Pointer to PHY data information, including CSI.
+ */
 void wifi_csi_rx_cb(void *ctx, wifi_csi_info_t *info);
+
+/**
+ * @brief  Create the processing and inference task
+ */
 void esp_wisense_create_tasks_internal(void);
 
 /**

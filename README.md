@@ -27,7 +27,17 @@ To run the Onboard Processing example, you will need at least two ESP32 boards: 
 
 ## Environment Setup
 
-We recommend using pip:
+We recommend using [conda](https://docs.conda.io/projects/conda/en/stable/index.html) to install the dependencies:
+
+```
+conda env create -f environment.yml
+````
+And then running the following to activate the environment:
+```
+conda activate wisensing-esp32
+```
+
+If you don't want to use conda, you can use pip as well:
 
 ```
 pip install -r requirements.txt

@@ -41,22 +41,26 @@ void wifi_init(void) {
   ESP_ERROR_CHECK(esp_event_handler_instance_register(
       IP_EVENT, IP_EVENT_STA_GOT_IP, &event_handler, NULL, NULL));
 
-  wifi_config_t wifi_config =
-  {.sta = {
+  // clang-format off
+  wifi_config_t wifi_config = {
+      .sta = {
 #else
-  wifi_config_t wifi_config = {.ap = {
-                                   .channel = CONFIG_WIFI_CHANNEL,
+  wifi_config_t wifi_config = {
+      .ap = {
+          .channel  = CONFIG_WIFI_CHANNEL,
 #endif
-       .ssid     = CONFIG_WIFI_SSID,
-       .password = CONFIG_WIFI_PASSWORD,
-   } };
+          .ssid     = CONFIG_WIFI_SSID,
+          .password = CONFIG_WIFI_PASSWORD,
+      }
+  };
+  // clang-format on
 
 #ifdef CONFIG_WIFI_STA
-  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
 #else
-  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
   ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
+  ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
 #endif
 
   ESP_ERROR_CHECK(esp_wifi_set_storage(WIFI_STORAGE_RAM));

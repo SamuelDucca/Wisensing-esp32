@@ -1,2 +1,2 @@
-idf_component_register(SRCS softAP.c
+idf_component_register(SRCS soft_ap.c
                        INCLUDE_DIRS .)

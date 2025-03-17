@@ -5,6 +5,7 @@ channels:
 dependencies:
   - ipykernel
   - ipython
+  - jupyter
   - jupyter_client
   - jupyter_core
   - pip
@@ -22,4 +23,5 @@ dependencies:
       - scikit-learn
       - scipy
       - tensorflow==2.18.0
+      - tensorflow-cpu==2.18.0
 

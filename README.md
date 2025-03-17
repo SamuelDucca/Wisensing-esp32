@@ -54,7 +54,7 @@ The scripts, inputs and outputs for the data processing stage are located in the
 
 Raw Wi-Fi CSI files should be placed in the ```1_raw_data``` folder, where they will be automatically read by the data processing scripts. Our data processing scripts require RSSI as well as CSI data, so we recommend using [ESP32-CSI-TOOL](https://github.com/StevenMHernandez/ESP32-CSI-Tool) for collecting timestamped CSI data in a format that is compatible with our tool.
 
-We provide three raw CSI files representing a person walking between two ESP32 boards at distances of 140, 150 and 200 cm.
+We provide three raw CSI files representing a person walking between two ESP32 boards at distances of 140, 150 and 200 cm. In the following sections, we will use this data to demonstrate Wisensing-ESP32's capabilities and build a dataset suitable for training machine learning models using CSI data.
 
 ### 2. Data processing
 
@@ -66,7 +66,7 @@ python 1_format_and_preprocess.py
 
 This script will format the raw CSI data, calculate its amplitude normalized by the RSSI and apply a running mean filter to reduce noise. The running mean window size can be configured in the ```config.py``` file.
 
-The script will create two new folders with the transformed data: ```2_formatted_data``` (for the raw formatted data) and ```3_preprocessed_data``` (for the extracted and filtered amplitudes). We save the preprocessed files using the ```.parquet``` format to reduce memory usage and speed up read/wr
+The script will create two new folders with the transformed data: ```2_formatted_data``` (for the raw formatted data) and ```3_preprocessed_data``` (for the extracted and filtered amplitudes). We save the preprocessed files using the ```.parquet``` format to reduce memory usage and improve read/write speed.
 
 ### 3. Data visualization
 
@@ -75,18 +75,18 @@ Now, we can visualize the CSI amplitudes (located in the ```3_preprocessed_data`
 python single_plot.py preprocessed-person_150cm_1.parquet
 ```
 
-A matplotlib window showing the amplitude heatmap will appear. You can zoom in and adjust the scale as needed to better visualize the data.
+A matplotlib window showing the amplitude heatmap will appear. You can zoom in using the loupe in the lower left corner, as well as adjust the scale as needed to better visualize the data.
 
 <img width="500" alt="matplotlib_csi" src="https://github.com/user-attachments/assets/8139feea-4767-47d8-968c-7539603fa4b6" />
 
-The narrow blue strips denote the CSI amplitude drop when a person walks in between the ESP32 boards.
+The narrow blue strips denote the CSI amplitude drop when a person walks in between the ESP32 boards. Simply close the window when you finish analyzing the data.
 
 
 ### 4. Data annotation
 
 In order to use this data to train a machine learning model, we first need to annotate it, indicating what class corresponds to the events in a certain window of frames. To do this, we use the ```data_annotation.py``` script, with the source file name and the class we want to annotate as arguments: ``python data_annotation.py source_file.parquet class_name``
 
-For example, let's annotate the experiment with the boards placed 150 cm apart:
+For example, let's annotate the "person" class in the experiment with the boards placed 150 cm apart:
 
 ```
 python data_annotation.py preprocessed-person_150cm_1.parquet person
@@ -101,7 +101,7 @@ A blue dot with a blue horizontal bar will appear, showing you the size of the w
 
 In case you make a mistake, use ``CTRL+Z`` to undo the last annotation.
 
-When you are done, simply close the window. Your annotated frames will be automatically saved in the ``slicing_source.txt`` file, in a format suitable for input to our next scripts. We provide a ``slicing_source_demo.txt`` file with all samples from the three experiments already annotated, so you don't have to manually annotate everything to proceed.
+When you are done, simply close the window. Your annotated frames will be automatically saved in the ``slicing_source.txt`` file, in a format suitable for input to our next scripts. We provide a ``slicing_source_demo.txt`` file with all samples from the three experiments already annotated, so you don't have to manually annotate anything to proceed.
 
 
 ### 5. Data slicing
@@ -142,6 +142,14 @@ The second module is provided in the ``ModelTraining`` folder. It consists of a 
 4. Model convertion to C data array.
 
 It enables you to run the code step-by-step, alongside instructions and explanations.
+
+To open the Jupyter Notebook, navigate to the ``ModelTraining`` folder using the terminal. Then, run:
+
+```
+jupyter notebook
+```
+
+This will open a new tab with the Jupyter Notebook interface in your default browser. Click the ``model_training_and_quantization.ipynb`` file to open the Notebook and run the code. If you are not familiar with Jupyter Notebooks, we recommend [reading the documentation](https://jupyter-notebook.readthedocs.io/en/latest/) before proceeding.
 
 This module will generate four files as output: ``preprocessing.c``, ``preprocessing.h``, ``model.c``, ``preprocessing.h``. Copy the files to the ``OnboardProcessing/esp-wisense/examples/person-detection/main`` to use your model and feature extraction process in the next module using the ESP32.
 

@@ -20,6 +20,7 @@ The Onboard Processing module requires the ESP-IDF framework v5.4 for programmin
 We have tested our tool in the following operating systems: 
 - Windows 11
 - Fedora 38 (Linux kernel v6.8.9)
+- Lubuntu 24.04.2
 
 **Hardware requirements**
 
@@ -92,7 +93,7 @@ For example, let's annotate the "person" class in the experiment with the boards
 python data_annotation.py preprocessed-person_150cm_1.parquet person
 ```
 
-Once the matplotlib window is open, let' zoom in between frames 0 and 2000 to better visualize the data. Now, we can annotate the data by *right clicking* the narrow amplitude drops where a person interfered with the signal. 
+Once the matplotlib window is open, let's zoom in between frames 0 and 2000 to better visualize the data. Now, we can annotate the data by *right clicking* the narrow amplitude drops where a person interfered with the signal. 
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/b626e3c3-e536-400b-a1e8-baa6fdab77e3" />
 

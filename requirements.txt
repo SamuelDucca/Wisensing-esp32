@@ -1,6 +1,7 @@
 flatbuffers==25.2.10
 ipykernel
 ipython
+jupyter
 jupyter_client
 jupyter_core
 keras==3.8.0
@@ -12,4 +13,5 @@ pyarrow==19.0.1
 scikit-learn
 scipy
 tensorflow==2.18.0
+tensorflow-cpu==2.18.0
 python==3.11

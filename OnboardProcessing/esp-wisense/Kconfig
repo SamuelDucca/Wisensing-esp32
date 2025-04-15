@@ -48,9 +48,19 @@ endchoice
 config WIFI_CHANNEL
   int "Wi-Fi Channel"
   depends on WIFI_AP
+  range 1 13
   default 6
   help
     Valid channels are [1, 13] for most of the world.
+
+config MAX_STA_CONN
+  int "Maximum STA Connections"
+  depends on WIFI_AP
+  range 1 5
+  default 3
+  help
+    Maximum number of connected stations at once.
+
 
 config WIFI_MAX_RETRY
   int "Wi-Fi Maximum Connection Retries"

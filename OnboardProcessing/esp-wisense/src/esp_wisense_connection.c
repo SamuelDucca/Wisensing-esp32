@@ -47,7 +47,9 @@ void wifi_init(void) {
 #else
   wifi_config_t wifi_config = {
       .ap = {
-          .channel  = CONFIG_WIFI_CHANNEL,
+          .channel        = CONFIG_WIFI_CHANNEL,
+          .authmode       = WIFI_AUTH_WPA_WPA2_PSK,
+          .max_connection = CONFIG_MAX_STA_CONN,
 #endif
           .ssid     = CONFIG_WIFI_SSID,
           .password = CONFIG_WIFI_PASSWORD,

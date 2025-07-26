@@ -6,6 +6,7 @@ import glob
 import pandas as pd
 import numpy as np
 from enum import Enum
+import config
 
 class Partition(Enum):
     TRAIN, TEST = range(2)
@@ -80,7 +81,7 @@ print("")
 
 # Creating base (empty) dataframe
 # Label (0 for nothing, 1 for person, etc) is in first position
-slice_size = 100
+slice_size = config.WINDOW_SIZE
 subcarrier_size = 52
 headers = ["{}x{}".format(frame, sub) for frame in range(1, slice_size+1) for sub in range (1, subcarrier_size+1)]
 headers.insert(0, "label")

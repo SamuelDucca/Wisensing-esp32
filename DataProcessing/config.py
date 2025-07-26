@@ -1,5 +1,7 @@
-# Global variables for window slicing and sliding window
+# Toggle for using RSSI normalization
+ENABLE_RSSI_NORM = True
 
+# Global variables for window slicing and sliding window
 #Size of each sample window
 WINDOW_SIZE = 100
 

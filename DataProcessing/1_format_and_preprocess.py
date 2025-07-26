@@ -101,7 +101,8 @@ for file in formatted_data_csv_files:
         amplitudes = np.sqrt((real_part**2)+(complex_part**2))
         square_sum = np.sum(amplitudes ** 2)
         #csi_normal = square_sum/64.0
-        factor_scaling = math.sqrt((10**(rss/10))/square_sum)
+        if (config.ENABLE_RSSI_NORM): factor_scaling = math.sqrt((10**(rss/10))/square_sum)
+        else: factor_scaling = 1
         csi_matrix[j] = amplitudes*factor_scaling
 
     # Removing null or constant subcarriers

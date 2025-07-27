@@ -1,5 +1,11 @@
+from enum import Enum
+
 # Toggle for using RSSI normalization
 ENABLE_RSSI_NORM = True
+
+# Class labels should be the same as in the slicing_source and dataset_source files
+class Label(Enum):
+    NOISE, PERSON = range(2)
 
 # Global variables for window slicing and sliding window
 #Size of each sample window

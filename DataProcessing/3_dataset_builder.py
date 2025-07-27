@@ -7,17 +7,12 @@ import pandas as pd
 import numpy as np
 from enum import Enum
 import config
+from config import Label
 
 class Partition(Enum):
     TRAIN, TEST = range(2)
 
-# Include your classes here
-class Label(Enum):
-    NOISE, PERSON = range(2)
-
-
 #Use dataset_source.txt as argument
-
 
 # Getting the path to all folders and files we need
 path_to_dir = os.path.dirname(os.path.abspath(__file__))
